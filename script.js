@@ -175,58 +175,72 @@ const modal = document.querySelector('.modal-backdrop');
 const modalTitle = document.querySelector('[data-modal-title]');
 const modalCategory = document.querySelector('[data-modal-category]');
 const modalDesc = document.querySelector('[data-modal-desc]');
+const modalRole = document.querySelector('[data-modal-role]');
 const modalChallenge = document.querySelector('[data-modal-challenge]');
 const modalSolution = document.querySelector('[data-modal-solution]');
 const modalImage = document.querySelector('[data-modal-image]');
 const modalFeatures = document.querySelector('[data-modal-features]');
 const modalTags = document.querySelector('[data-modal-tags]');
 const closeModalBtn = document.querySelector('.close-modal');
+const modalLiveLink = document.querySelector('.modal-actions .button-primary');
+const modalSourceLink = document.querySelector('.modal-actions .button-secondary');
 
 const projectData = [
   {
-    title: 'Luxe Interior Studio',
+    title: "Dunni's Kitchen",
     category: 'Business',
-    desc: 'A premium interior design agency site with immersive project galleries and inquiry flow.',
-    challenge: 'The client needed a digital presence that matched their premium positioning without overwhelming visitors.',
-    solution: 'I designed an experience-first layout with full-bleed imagery, subtle scroll animations, and a streamlined inquiry modal.',
-    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=700&h=420&fit=crop&auto=format',
+    desc: "A responsive website for a Portuguese seafood restaurant in Lisbon, with a menu organised by food section and one-tap WhatsApp ordering. Its clean, appetising layout puts the restaurant's dishes front and centre.",
+    role: 'Restaurant website · Concept/demo build · Design and development',
+    challenge: 'The restaurant needed a clear, appetising online presence that makes its menu easy to browse and ordering simple on mobile.',
+    solution: 'I designed and developed a responsive restaurant website with food-section menu navigation and one-tap WhatsApp ordering links.',
+    image: 'assets/img/dunnis-kitchen.png',
+    imageAlt: "Homepage of Dunni's Kitchen, a Portuguese seafood restaurant website in Lisbon",
+    liveUrl: 'https://dunnis-kitchen.nichesite.org/',
+    hideSource: true,
     features: [
-      'Full-screen hero gallery',
-      'Animated project carousel',
-      'Project inquiry form',
-      'Mobile-first responsive layout',
+      'Menu organised by food section',
+      'One-tap WhatsApp ordering links',
+      'Responsive layout',
     ],
-    tags: ['React', 'Framer Motion', 'Tailwind CSS'],
+    tags: ['WordPress', 'Elementor', 'Astra (Starter Sites)', 'WhatsApp ordering links'],
   },
   {
-    title: 'NovaTech SaaS Landing',
-    category: 'Landing Pages',
-    desc: 'High-converting product landing page for a B2B SaaS platform with animated feature sections.',
-    challenge: 'The startup needed a landing page that clearly communicated a complex product value prop to non-technical buyers.',
-    solution: 'I simplified the narrative into three benefit pillars, added animated demos, and built a pricing section that reduced hesitation.',
-    image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=700&h=420&fit=crop&auto=format',
+    title: 'Kings Palace Estate',
+    category: 'Real Estate',
+    desc: 'A responsive real estate website for KINGS PALACE Estate, showcasing affordable apartments with detailed listings, estate information, and an easy inquiry flow for prospective tenants and buyers.',
+    role: 'Real estate / apartment listings website · Design and development',
+    challenge: 'Prospective tenants and buyers needed an easy way to explore affordable apartments and learn about the estate.',
+    solution: 'I designed and developed a responsive real estate website with detailed apartment listings, estate information, and a straightforward inquiry flow.',
+    image: 'assets/img/kings%20palace%20estate.png',
+    imageAlt: 'Homepage of Kings Palace Estate, a real estate listings website',
+    liveUrl: 'https://kingspalaceestate.netlify.app/',
+    hideSource: true,
     features: [
-      'Animated feature demos',
-      'Interactive pricing table',
-      'Testimonials section',
-      'Lead capture form',
+      'Affordable apartment listings',
+      'Estate information',
+      'Inquiry flow for tenants and buyers',
+      'Responsive layout',
     ],
-    tags: ['React', 'TypeScript', 'CSS Modules'],
+    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Node.js', 'Git'],
   },
   {
-    title: 'Bloom Botanicals Shop',
-    category: 'E-commerce',
-    desc: 'A fully responsive e-commerce storefront for a boutique plant shop with cart and checkout.',
-    challenge: 'A local plant shop needed to expand online but had no existing digital infrastructure.',
-    solution: 'I built a complete e-commerce solution from scratch — product catalog, cart management, Stripe checkout, and order confirmation.',
-    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=700&h=420&fit=crop&auto=format',
+    title: 'JUMSA',
+    category: 'Organisation',
+    desc: "Official website for the Jos University Medical Students' Association (JUMSA). A responsive multi-page site presenting the association's mission, executive team, activities, and news & events, with a contact page for students who want to get involved.",
+    role: 'Organisation website (student association) · Design and development',
+    challenge: 'Students needed a central place to learn about the association, its leadership, activities, and how to participate.',
+    solution: 'I designed and developed a responsive multi-page association website covering its mission, executive team, activities, news, events, and contact information.',
+    image: 'assets/img/JUMSA.png',
+    imageAlt: "Homepage of the JUMSA website, Jos University Medical Students' Association",
+    liveUrl: 'https://jumsa.netlify.app/',
+    hideSource: true,
     features: [
-      'Product catalog with filters',
-      'Cart & wishlist',
-      'Stripe checkout',
-      'Order confirmation emails',
+      'Association mission and executive team',
+      'Activities, news, and events',
+      'Contact page for students',
+      'Responsive multi-page layout',
     ],
-    tags: ['React', 'Stripe', 'Node.js'],
+    tags: ['HTML', 'CSS', 'JavaScript', 'Node.js', 'Git'],
   },
   {
     title: 'Marcus Webb Portfolio',
@@ -282,10 +296,24 @@ function openModal(projectName) {
   modalTitle.textContent = project.title;
   modalCategory.textContent = project.category;
   modalDesc.textContent = project.desc;
+  modalRole.textContent = project.role || '';
+  modalRole.hidden = !project.role;
   modalChallenge.textContent = project.challenge;
   modalSolution.textContent = project.solution;
   modalImage.src = project.image;
-  modalImage.alt = project.title;
+  modalImage.alt = project.imageAlt || project.title;
+  modalLiveLink.href = project.liveUrl || '#';
+  modalLiveLink.textContent = project.liveUrl ? 'Live Site' : 'Live Preview';
+  modalSourceLink.hidden = Boolean(project.hideSource);
+  modalSourceLink.style.display = project.hideSource ? 'none' : '';
+
+  if (project.liveUrl) {
+    modalLiveLink.target = '_blank';
+    modalLiveLink.rel = 'noopener noreferrer';
+  } else {
+    modalLiveLink.removeAttribute('target');
+    modalLiveLink.removeAttribute('rel');
+  }
 
   modalFeatures.innerHTML = project.features
     .map((item) => `<li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 2"/></svg>${item}</li>`)
